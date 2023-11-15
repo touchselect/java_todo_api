@@ -1,0 +1,9 @@
+insert into todos (title, status, details) values ('タスク１', '未着手', '詳細１');
+insert into todos (title, status, details) values ('タスク２', '進行中', '詳細２');
+insert into todos (title, status, details) values ('タスク３', '完了', '詳細３');
+insert into todos (title, status, details) values ('hoge', '完了', 'hogehoge');
+insert into todos (title, status, details) values ('apple', '完了', 'リンゴ');
+insert into todos (title, status, details) values ('april', '進行中', 'spring');
+insert into todos (title, status, details) values ('test', '未着手', 'good');
+insert into todos (title, status, details) values ('仕事１', '未着手', '詳細５');
+insert into todos (title, status, details) values ('仕事２', '完了', '詳細７');

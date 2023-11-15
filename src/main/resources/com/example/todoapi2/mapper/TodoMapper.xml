@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.todoapi2.mapper.TodoMapper">
+
+    <select id="getAllTodos" resultType="com.example.todoapi2.model.Todo">
+        select * from todos;
+    </select>
+
+    <select id="getTodoByStatus" parameterType="com.example.todoapi2.model.Status" resultType="com.example.todoapi2.model.Todo">
+        select * from todos where status = #{status};
+    </select>
+
+    <select id="getTodoByTitle" parameterType="java.lang.String" resultType="com.example.todoapi2.model.Todo">
+        select * from todos where title like '%' || #{title} || '%';
+    </select>
+
+    <select id="getTodoById" parameterType="java.lang.Long" resultType="com.example.todoapi2.model.Todo">
+        select * from todos where id = #{id};
+    </select>
+
+    <select id="getTodoSortedById" parameterType="java.lang.String" resultType="com.example.todoapi2.model.Todo">
+        select * from todos order by id #{order};
+    </select>
+
+    <select id="getTodoSortedByStatus" parameterType="java.lang.String" resultType="com.example.todoapi2.model.Todo">
+        select * from todos order by status #{order};
+    </select>
+
+    <insert id="insertTodo" parameterType="com.example.todoapi2.model.Todo">
+        insert into todos (title, status, details) values (#{title}, #{status}, #{details});
+    </insert>
+
+    <update id="updateTodo" parameterType="com.example.todoapi2.model.Todo">
+        update todos set title = #{title}, status = #{status}, details = #{details} where id = #{id};
+    </update>
+
+    <delete id="deleteTodoById" parameterType="java.lang.Long">
+        delete from todos where id = #{id};
+    </delete>
+
+</mapper>
