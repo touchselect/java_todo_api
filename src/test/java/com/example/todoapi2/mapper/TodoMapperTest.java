@@ -23,7 +23,6 @@ class TodoMapperTest {
     // テスト用のTodoオブジェクトをセットアップするメソッド
     private static Todo setUpTodo() {
         Todo todo = new Todo();
-        todo.setId(999L); //できれば自動生成でやりたい
         todo.setTitle("Test Todo");
         todo.setStatus(Status.valueOf("未着手"));
         todo.setDetails("hogehoge");
@@ -36,7 +35,7 @@ class TodoMapperTest {
         // マッパーから全てのTodoを取得
         List<Todo> todos = todoMapper.getAllTodos();
         // 取得されたリストがnullでないことを確認
-        assertNotNull(todos);
+        assertThat(todos, is(notNullValue()));
     }
 
     // ステータスに基づいてTodoを取得するテスト
@@ -48,9 +47,9 @@ class TodoMapperTest {
         List<Todo> todos3 = todoMapper.getTodoByStatus(Status.完了);
 
         // 取得されたリストがnullでないことを確認
-        assertNotNull(todos1);
-        assertNotNull(todos2);
-        assertNotNull(todos3);
+        assertThat(todos1, is(notNullValue()));
+        assertThat(todos2, is(notNullValue()));
+        assertThat(todos3, is(notNullValue()));
     }
 
     // タイトルに基づいてTodoを取得するテスト
@@ -84,15 +83,13 @@ class TodoMapperTest {
         // Todoをマッパーを通じて挿入
         todoMapper.insertTodo(todo);
 
+        // InsertしたTodoのIDを取ってくる
+
         // TodoのIDがnullでないことを確認
         assertThat(todo.getId(), is(notNullValue()));
 
-        System.out.println("Inserted Todo ID: " + todo.getId());
-
         // 挿入後のTodoをIDを使用して再度取得
         Todo insertedTodo = todoMapper.getTodoById(todo.getId());
-
-        System.out.println("Fetched Todo ID: " + insertedTodo.getId());
 
         // 取得したTodoがnullでないことを確認
         assertThat(insertedTodo, is(notNullValue()));
@@ -146,12 +143,12 @@ class TodoMapperTest {
         assertThat(afterDelete, is(nullValue()));
     }
 
-    @Disabled
+    @Disabled("未実装")
     @Test
     void getTodoSortedById() {
     }
 
-    @Disabled
+    @Disabled("未実装")
     @Test
     void getTodoSortedByStatus() {
     }
