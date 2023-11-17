@@ -13,6 +13,8 @@ public interface TodoService {
     void createTodo(Todo todo);
     boolean updateTodo(Todo todo);
     boolean deleteTodoById(Long id);
-    List<Todo> getTodoSortedById(String order);
-    List<Todo> getTodoSortedByStatus(String order);
+    List<Todo> getTodoSortedById();
+    List<Todo> getTodoSortedByIdDesc();
+    List<Todo> getTodoSortedByStatus();
+    List<Todo> getTodoSortedByStatusDesc();
 }

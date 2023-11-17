@@ -18,12 +18,20 @@
         select * from todos where id = #{id};
     </select>
 
-    <select id="getTodoSortedById" parameterType="java.lang.String" resultType="com.example.todoapi2.model.Todo">
-        select * from todos order by id ${order};
+    <select id="getTodoSortedById" resultType="com.example.todoapi2.model.Todo">
+        select * from todos order by id;
     </select>
 
-    <select id="getTodoSortedByStatus" parameterType="java.lang.String" resultType="com.example.todoapi2.model.Todo">
-        select * from todos order by status ${order};
+    <select id="getTodoSortedByIdDesc" resultType="com.example.todoapi2.model.Todo">
+        select * from todos order by id desc;
+    </select>
+
+    <select id="getTodoSortedByStatus" resultType="com.example.todoapi2.model.Todo">
+        select * from todos order by status;
+    </select>
+
+    <select id="getTodoSortedByStatusDesc" resultType="com.example.todoapi2.model.Todo">
+        select * from todos order by status desc;
     </select>
 
     <insert id="insertTodo" parameterType="com.example.todoapi2.model.Todo" useGeneratedKeys="true" keyProperty="id">

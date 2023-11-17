@@ -57,12 +57,22 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<Todo> getTodoSortedById(String order) {
-        return todoMapper.getTodoSortedById(order);
+    public List<Todo> getTodoSortedById() {
+        return todoMapper.getTodoSortedById();
     }
 
     @Override
-    public List<Todo> getTodoSortedByStatus(String order) {
-        return todoMapper.getTodoSortedByStatus(order);
+    public List<Todo> getTodoSortedByIdDesc() {
+        return todoMapper.getTodoSortedByIdDesc();
+    }
+
+    @Override
+    public List<Todo> getTodoSortedByStatus() {
+        return todoMapper.getTodoSortedByStatus();
+    }
+
+    @Override
+    public List<Todo> getTodoSortedByStatusDesc() {
+        return todoMapper.getTodoSortedByStatusDesc();
     }
 }

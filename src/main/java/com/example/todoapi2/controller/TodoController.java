@@ -35,15 +35,27 @@ public class TodoController {
         return ResponseEntity.ok(todos);
     }
 
-    @GetMapping("/sort-id")
-    public ResponseEntity<List<Todo>> getTodoSortedById(@RequestParam String order){
-        List<Todo> todos = todoService.getTodoSortedById(order);
+    @GetMapping({"/sort-id", "/sort-id/asc"})
+    public ResponseEntity<List<Todo>> getTodoSortedById(){
+        List<Todo> todos = todoService.getTodoSortedById();
         return ResponseEntity.ok(todos);
     }
 
-    @GetMapping("/sort-status")
-    public ResponseEntity<List<Todo>> getTodoSortedByStatus(@RequestParam String order){
-        List<Todo> todos = todoService.getTodoSortedByStatus(order);
+    @GetMapping("/sort-id/desc")
+    public ResponseEntity<List<Todo>> getTodoSortedByIdDesc(){
+        List<Todo> todos = todoService.getTodoSortedByIdDesc();
+        return ResponseEntity.ok(todos);
+    }
+
+    @GetMapping({"/sort-status", "/sort-status/asc"})
+    public ResponseEntity<List<Todo>> getTodoSortedByStatus(){
+        List<Todo> todos = todoService.getTodoSortedByStatus();
+        return ResponseEntity.ok(todos);
+    }
+
+    @GetMapping("/sort-status/desc")
+    public ResponseEntity<List<Todo>> getTodoSortedByStatusDesc(){
+        List<Todo> todos = todoService.getTodoSortedByStatusDesc();
         return ResponseEntity.ok(todos);
     }
 
