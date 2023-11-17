@@ -17,7 +17,7 @@ public interface TodoMapper {
 
     Todo getTodoById(Long id);
 
-    void insertTodo(Todo todo);
+    int insertTodo(Todo todo);
 
     void updateTodo(Todo todo);
 

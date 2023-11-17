@@ -83,7 +83,7 @@ class TodoMapperTest {
         // Todoをマッパーを通じて挿入
         todoMapper.insertTodo(todo);
 
-        // InsertしたTodoのIDを取ってくる
+        System.out.println(todo.getId());
 
         // TodoのIDがnullでないことを確認
         assertThat(todo.getId(), is(notNullValue()));
@@ -100,10 +100,12 @@ class TodoMapperTest {
     // Todoを更新するテスト
     @Test
     void updateTodo() {
-        // テスト用のTodoオブジェクトをセットアップ
+        // テスト用のTodoオブジェクトをセット/"アップ
         Todo todo = setUpTodo();
         // Todoをマッパーを通じて挿入
         todoMapper.insertTodo(todo);
+
+
 
         // 更新前のTodoをIDを使用して再度取得
         Todo beforeUpdate = todoMapper.getTodoById(todo.getId());

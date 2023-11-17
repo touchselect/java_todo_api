@@ -26,7 +26,7 @@
         select * from todos order by status #{order};
     </select>
 
-    <insert id="insertTodo" parameterType="com.example.todoapi2.model.Todo">
+    <insert id="insertTodo" parameterType="com.example.todoapi2.model.Todo" useGeneratedKeys="true" keyProperty="id">
         insert into todos (title, status, details) values (#{title}, #{status}, #{details});
     </insert>
 
