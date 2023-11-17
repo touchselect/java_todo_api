@@ -23,7 +23,11 @@ public interface TodoMapper {
 
     void deleteTodoById(Long id);
 
-    List<Todo> getTodoSortedById(String order);
+    List<Todo> getTodoSortedById();
 
-    List<Todo> getTodoSortedByStatus(String order);
+    List<Todo> getTodoSortedByStatus();
+
+    List<Todo> getTodoSortedByIdDesc();
+
+    List<Todo> getTodoSortedByStatusDesc();
 }
