@@ -46,14 +46,14 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public boolean updateTodo(Todo todo) {
-        todoMapper.updateTodo(todo);
-        return false;
+        int updatedRows = todoMapper.updateTodo(todo);
+        return updatedRows > 0;
     }
 
     @Override
     public boolean deleteTodoById(Long id) {
-        todoMapper.deleteTodoById(id);
-        return false;
+        int deletedRows = todoMapper.deleteTodoById(id);
+        return deletedRows > 0;
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.example.todoapi2.exception.TodoNotFoundException;
 import com.example.todoapi2.mapper.TodoMapper;
 import com.example.todoapi2.model.Status;
 import com.example.todoapi2.model.Todo;
-import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.bytebuddy.implementation.ExceptionMethod.throwing;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;

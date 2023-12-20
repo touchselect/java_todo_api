@@ -6,6 +6,7 @@ import com.example.todoapi2.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URI;
 import java.util.List;
@@ -60,9 +61,9 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createTodo(@RequestBody Todo todo){
+    public ResponseEntity<Todo> createTodo(@RequestBody Todo todo){
         todoService.createTodo(todo);
-        return ResponseEntity.created(URI.create("/todos/" + todo.getId())).build();
+        return ResponseEntity.created(URI.create("/todos/" + todo.getId())).body(todo);
     }
 
     @GetMapping("/{id}")
@@ -76,11 +77,11 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateTodo(@PathVariable Long id, @RequestBody Todo todo){
+    public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @RequestBody Todo todo){
         todo.setId(id);
         boolean updated = todoService.updateTodo(todo);
         if(updated){
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(todo);
         }else {
             return ResponseEntity.notFound().build();
         }

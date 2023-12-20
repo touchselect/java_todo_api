@@ -19,9 +19,9 @@ public interface TodoMapper {
 
     int insertTodo(Todo todo);
 
-    void updateTodo(Todo todo);
+    int updateTodo(Todo todo);
 
-    void deleteTodoById(Long id);
+    int deleteTodoById(Long id);
 
     List<Todo> getTodoSortedById();
 

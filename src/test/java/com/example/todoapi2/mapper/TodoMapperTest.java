@@ -2,25 +2,19 @@ package com.example.todoapi2.mapper;
 
 import com.example.todoapi2.model.Status;
 import com.example.todoapi2.model.Todo;
-import com.example.todoapi2.service.TodoService;
-import com.example.todoapi2.service.TodoServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+
 
 @MybatisTest
 @ExtendWith(MockitoExtension.class)
