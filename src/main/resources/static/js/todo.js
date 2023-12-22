@@ -17,6 +17,7 @@ let Todo = Backbone.Model.extend({
         details: ''
     },
     urlRoot: '/todos',
+    idAttribute: 'id',
 
     deleteTodo: function(){
         this.destroy({
@@ -25,6 +26,7 @@ let Todo = Backbone.Model.extend({
                 Backbone.history.navigate('', {trigger: true});
             },
             error: function(model, response){
+                console.log('Todo deleted:', model);
                 console.error('Error while deleting Todo:', response);
             }
         });
@@ -48,14 +50,12 @@ let TodoView = Backbone.View.extend({
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
 
-        let status = this.model.get('status');
-        if (status === '未着手') {
-            this.$el.addClass('bg-danger-subtle');
-        } else if (status === '進行中') {
-            this.$el.addClass('bg-warning-subtle');
-        } else if (status === '完了') {
-            this.$el.addClass('bg-success-subtle');
-        }
+        let statusClasses = {
+            '未着手': 'bg-danger-subtle',
+            '進行中': 'bg-warning-subtle',
+            '完了': 'bg-success-subtle'
+        };
+        this.$el.addClass(statusClasses[this.model.get('status')] || '');
         return this;
     }
 });
@@ -103,21 +103,48 @@ let TodoDetailView = Backbone.View.extend({
     template: Handlebars.compile(todoDetailTemplate),
 
     events: {
-        'click .delete-todo': 'deleteTodo'
+        'click .delete-todo': 'deleteTodo',
+        'click #hoge': 'hoge'
+    },
+
+    hoge: function(){
+        console.log(this);
+        console.log('hoge');
+    },
+
+    // initialize: function() {
+    //     console.log('TodoDetailView initialized', this);
+    //     this.listenTo(this.model, 'change', this.render);
+    //     this.listenTo(this.model, 'destroy', this.remove);
+    // },
+
+    remove: function() {
+        this.undelegateEvents();
+        Backbone.View.prototype.remove.call(this);
+    },
+
+    cleanUp: function() {
+        console.log('Cleaning up TodoDetailView', this);
+        this.undelegateEvents(); // イベントリスナーを削除
+        // this.stopListening();    // モデルに対するリスナーを停止
+        // this.$el.empty();        // elの内容をクリア
     },
 
     render: function(){
+        console.log('Rendering TodoDetailView', this);
         $('#add-todo-link').hide();
         $('#todo-list').empty(); // Todoリストをクリア
         this.$el.html(this.template(this.model.toJSON())).hide().slideDown('slow');
+        console.log('Model data:', this.model.toJSON());
         return this;
     },
 
     deleteTodo: function(){
-        if(confirm('Are you sure want to delete this todo?')){
-            console.log(this.model.id);
-            this.model.deleteTodo();
-        }
+        console.log('deleteTodo called from', this);
+        Backbone.history.navigate('', { trigger: true });
+        // if(confirm('Are you sure want to delete this todo?')){
+        //     this.model.deleteTodo();
+        // }
     }
 });
 
@@ -167,6 +194,17 @@ let AppRouter = Backbone.Router.extend({
         'todos/edit/:id': 'editTodo'
     },
 
+    currentView: null,
+    switchView: function(newView) {
+        if (this.currentView) {
+            console.log('Removing current view', this.currentView);
+            this.currentView.cleanUp(); // cleanUpメソッドでビューのクリーンアップを行う
+        }
+        console.log('Switching to new view', newView);
+        this.currentView = newView;
+        this.currentView.render();
+    },
+
     // ? Todo一覧
     home: function() {
         $('#content').empty(); // Todo追加フォームをクリア
@@ -198,9 +236,8 @@ let AppRouter = Backbone.Router.extend({
     viewTodo: function(id) {
         let todo = new Todo({id: id});
         todo.fetch({
-            success: function(model) {
-                let todoDetailView = new TodoDetailView({model: model});
-                todoDetailView.render();
+            success: (model) => {
+                this.switchView(new TodoDetailView({model: model}));
             },
             error: function() {
                 console.error('Failed to fetch todo with id:', id);
@@ -230,4 +267,3 @@ $(function() {
     new AppRouter();
     Backbone.history.start();
 });
-

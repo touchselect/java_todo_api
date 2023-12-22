@@ -33,6 +33,7 @@ const todoDetailTemplate = `
         <p class="card-text"><small class="text-muted">Status: {{status}}</small></p>
         <a href="#todos/edit/{{id}}" class="btn btn-primary">Edit</a>
         <button class="delete-todo btn btn-danger" data-id="{{id}}">Delete</button>
+        <button class="btn btn-danger" id="hoge">hoge</button>
         <a href="#" class="btn btn-secondary">Back to List</a>
     </div>
 </div>
