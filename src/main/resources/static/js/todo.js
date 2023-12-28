@@ -78,6 +78,7 @@ let SortOptionView = Backbone.View.extend({
     sortTodos: function() {
         $('#content').empty(); // Todo追加フォームをクリア
         $('#add-todo-link').show();
+        searchFormView.clearSearchTerm();
         // let todos = new TodoCollection();
         let selectedOption = this.$('#sort-options').val();
         console.log('Fetching todos with sort option:', selectedOption);
@@ -100,6 +101,90 @@ let SortOptionView = Backbone.View.extend({
         });
     }
 });
+let sortOptionView;
+
+// * Todo検索フォーム
+let SearchFormView = Backbone.View.extend({
+    el: '#search-form-container',
+    template: Handlebars.compile(searchFormTemplate),
+
+    events: {
+        'click #search-by-title': 'searchByTitle',
+        'click #search-by-status': 'searchByStatus'
+    },
+
+    render: function() {
+        this.$el.html(this.template());
+        return this;
+    },
+
+    displaySearchTerm: function(searchTerm) {
+        let template = Handlebars.compile(searchResultTemplate);
+        $('#search-result-container').html(template({ searchTerm: searchTerm }));
+    },
+
+    clearSearchTerm: function() {
+        $('#search-result-container').empty();
+    },
+
+    searchByTitle: function(){
+        console.log('title!');
+        $('#content').empty(); // Todo追加フォームをクリア
+        $('#add-todo-link').show();
+        let title = this.$('#search-title').val().trim();
+        if(title){
+            todos.fetch({
+                url: `/todos/title?title=${encodeURIComponent(title)}`,
+                reset: true,
+                success: function(collection) {
+                    let todoList = $('#todo-list');
+                    todoList.empty();
+
+                    collection.each(function(todo) {
+                        let view = new TodoView({model: todo});
+                        todoList.append(view.render().el);
+                    });
+                    this.displaySearchTerm('Title: ' + title);
+                    this.$('#search-title').val('');
+                }.bind(this),
+
+                error: function() {
+                    console.error('Error fetching filtered todos.');
+                }
+            })
+        }
+
+    },
+
+    searchByStatus: function(){
+        console.log('status!');
+        $('#content').empty(); // Todo追加フォームをクリア
+        $('#add-todo-link').show();
+        let status = this.$('#search-status').val();
+        if(status){
+            todos.fetch({
+                url: `/todos/status?status=${encodeURIComponent(status)}`,
+                reset: true,
+                success: function(collection) {
+                    let todoList = $('#todo-list');
+                    todoList.empty();
+
+                    collection.each(function(todo) {
+                        let view = new TodoView({model: todo});
+                        todoList.append(view.render().el);
+                    });
+                    this.displaySearchTerm('Status: ' + status);
+                    this.$('#search-status').val('');
+                }.bind(this),
+
+                error: function() {
+                    console.error('Error fetching filtered todos.');
+                }
+            })
+        }
+    }
+});
+let searchFormView;
 
 // * Todo追加フォーム
 let TodoAddView = Backbone.View.extend({
@@ -244,6 +329,7 @@ let AppRouter = Backbone.Router.extend({
     home: function() {
         $('#content').empty(); // Todo追加フォームをクリア
         $('#add-todo-link').show();
+        searchFormView.clearSearchTerm();
         // let todos = new TodoCollection();
         todos.fetch({
             success: function(collection) {
@@ -263,12 +349,14 @@ let AppRouter = Backbone.Router.extend({
 
     // ? Todo追加フォーム
     addTodo: function() {
+        searchFormView.clearSearchTerm();
         let todoAddView = new TodoAddView();
         todoAddView.render();
     },
 
     // ? Todo詳細
     viewTodo: function(id) {
+        searchFormView.clearSearchTerm();
         let todo = new Todo({id: id});
         todo.fetch({
             success: (model) => {
@@ -282,6 +370,7 @@ let AppRouter = Backbone.Router.extend({
 
     // ? Todo編集
     editTodo: function(id) {
+        searchFormView.clearSearchTerm();
         let todo = new Todo({id: id});
         todo.fetch({
             success: function(model) {
@@ -299,8 +388,11 @@ let AppRouter = Backbone.Router.extend({
 
 
 $(function() {
-    let sortOptionView = new SortOptionView();
+    sortOptionView = new SortOptionView();
     sortOptionView.render();
+
+    searchFormView = new SearchFormView();
+    searchFormView.render();
 
     new AppRouter();
     Backbone.history.start();

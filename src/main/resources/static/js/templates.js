@@ -11,13 +11,46 @@ const todoTemplate = `
 `;
 
 const sortOptionTemplate = `
-<select id="sort-options">
-    <option value="">Select Sort Option</option>
-    <option value="sort-id-asc">Sort by ID Ascending</option>
-    <option value="sort-id-desc">Sort by ID Descending</option>
-    <option value="sort-status-asc">Sort by Status Ascending</option>
-    <option value="sort-status-desc">Sort by Status Descending</option>
-</select>
+<div class="mb-3">
+    <label for="sort-options" class="form-label">Sort Todos</label>
+    <select id="sort-options" class="form-select">
+        <option value="">Select Sort Option</option>
+        <option value="sort-id-asc">Sort by ID Ascending</option>
+        <option value="sort-id-desc">Sort by ID Descending</option>
+        <option value="sort-status-asc">Sort by Status Ascending</option>
+        <option value="sort-status-desc">Sort by Status Descending</option>
+    </select>
+</div>
+`;
+
+const searchFormTemplate = `
+<div class="card mb-3">
+    <div class="card-body">
+        <form id="search-form">
+            <div class="mb-3">
+                <label for="search-title" class="form-label">Title:</label>
+                <input type="text" id="search-title" class="form-control" placeholder="Search by title">
+                <button type="button" id="search-by-title" class="btn btn-primary mt-2">Search by Title</button>
+            </div>
+            <div class="mb-3">
+                <label for="search-status" class="form-label">Status:</label>
+                <select id="search-status" class="form-select">
+                    <option value="">Select Status</option>
+                    <option value="未着手">未着手</option>
+                    <option value="進行中">進行中</option>
+                    <option value="完了">完了</option>
+                </select>
+                <button type="button" id="search-by-status" class="btn btn-primary mt-2">Search by Status</button>
+            </div>
+        </form>
+    </div>
+</div>
+`;
+
+const searchResultTemplate = `
+<div id="search-result" class="alert alert-info">
+    <p>Searching for: <strong>{{searchTerm}}</strong></p>
+</div>
 `;
 
 const todoFormTemplate = `
