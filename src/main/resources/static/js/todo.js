@@ -39,6 +39,7 @@ let TodoCollection = Backbone.Collection.extend({
     model: Todo,
     url: '/todos'
 });
+let todos = new TodoCollection();
 
 
 // ! ビュー
@@ -57,6 +58,46 @@ let TodoView = Backbone.View.extend({
         };
         this.$el.addClass(statusClasses[this.model.get('status')] || '');
         return this;
+    }
+});
+
+// * Todoのソートオプション
+let SortOptionView = Backbone.View.extend({
+    el: '#sort-options-container',
+    template: Handlebars.compile(sortOptionTemplate),
+
+    events: {
+        'change #sort-options': 'sortTodos'
+    },
+
+    render: function() {
+        this.$el.html(this.template());
+        return this;
+    },
+
+    sortTodos: function() {
+        $('#content').empty(); // Todo追加フォームをクリア
+        $('#add-todo-link').show();
+        // let todos = new TodoCollection();
+        let selectedOption = this.$('#sort-options').val();
+        console.log('Fetching todos with sort option:', selectedOption);
+        console.log(todos);
+        todos.fetch({
+            url: `/todos?sort=${selectedOption}`,
+            success: function(collection) {
+                let todoList = $('#todo-list');
+                todoList.empty();
+
+                collection.each(function(todo) {
+                    let view = new TodoView({model: todo});
+                    todoList.append(view.render().el);
+                });
+            },
+            error: function(collection) {
+                console.log(collection);
+                console.error('Failed to fetch todos.');
+            }
+        });
     }
 });
 
@@ -112,12 +153,6 @@ let TodoDetailView = Backbone.View.extend({
         console.log('hoge');
     },
 
-    // initialize: function() {
-    //     console.log('TodoDetailView initialized', this);
-    //     this.listenTo(this.model, 'change', this.render);
-    //     this.listenTo(this.model, 'destroy', this.remove);
-    // },
-
     remove: function() {
         this.undelegateEvents();
         Backbone.View.prototype.remove.call(this);
@@ -141,10 +176,10 @@ let TodoDetailView = Backbone.View.extend({
 
     deleteTodo: function(){
         console.log('deleteTodo called from', this);
-        Backbone.history.navigate('', { trigger: true });
-        // if(confirm('Are you sure want to delete this todo?')){
-        //     this.model.deleteTodo();
-        // }
+        // Backbone.history.navigate('', { trigger: true });
+        if(confirm('Are you sure want to delete this todo?')){
+            this.model.deleteTodo();
+        }
     }
 });
 
@@ -209,7 +244,7 @@ let AppRouter = Backbone.Router.extend({
     home: function() {
         $('#content').empty(); // Todo追加フォームをクリア
         $('#add-todo-link').show();
-        let todos = new TodoCollection();
+        // let todos = new TodoCollection();
         todos.fetch({
             success: function(collection) {
                 let todoList = $('#todo-list');
@@ -264,6 +299,9 @@ let AppRouter = Backbone.Router.extend({
 
 
 $(function() {
+    let sortOptionView = new SortOptionView();
+    sortOptionView.render();
+
     new AppRouter();
     Backbone.history.start();
 });

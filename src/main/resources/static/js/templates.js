@@ -10,6 +10,16 @@ const todoTemplate = `
 </li>
 `;
 
+const sortOptionTemplate = `
+<select id="sort-options">
+    <option value="">Select Sort Option</option>
+    <option value="sort-id-asc">Sort by ID Ascending</option>
+    <option value="sort-id-desc">Sort by ID Descending</option>
+    <option value="sort-status-asc">Sort by Status Ascending</option>
+    <option value="sort-status-desc">Sort by Status Descending</option>
+</select>
+`;
+
 const todoFormTemplate = `
 <form id="todo-form" class="form">
     <div class="form-group m-3">
